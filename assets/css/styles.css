@@ -319,6 +319,42 @@ strong { font-weight: 600; color: var(--text); }
 .tst__loc { color: var(--dim); font-size: .85rem; }
 @media (max-width: 960px) { .testimonials { grid-template-columns: 1fr; max-width: 680px; } }
 
+/* ---------- Atendimento no Brasil ---------- */
+.coverage { background: var(--bg-2); border-top: 1px solid var(--line); }
+.coverage__inner { display: grid; grid-template-columns: 1fr minmax(300px, 480px); gap: clamp(32px, 6vw, 80px); align-items: center; }
+.coverage__copy h2 { margin-bottom: 20px; }
+.coverage__copy > p { color: var(--muted); font-size: 1.08rem; max-width: 480px; }
+.coverage__map { margin: 0; }
+.coverage__map svg { width: 100%; height: auto; overflow: visible; }
+.coverage__states path { fill: transparent; stroke: rgba(255, 255, 255, .15); stroke-width: .8; stroke-linejoin: round; transition: fill .3s; }
+.coverage__states path.is-on { fill: rgba(0, 184, 217, .25); }
+.coverage__dot { fill: var(--accent); stroke: var(--bg-2); stroke-width: 2; }
+.coverage__pulse { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: coverage-pulse 2.2s var(--ease) infinite; }
+@keyframes coverage-pulse { from { transform: scale(1); opacity: .6; } to { transform: scale(3.4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .coverage__pulse { animation: none; opacity: .25; transform: scale(2); } }
+.coverage__arcs path { fill: none; stroke-linecap: round; }
+.coverage__route { stroke: rgba(0, 184, 217, .55); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.1s var(--ease); }
+.coverage__flow { stroke: var(--accent-2); stroke-width: 1.6; stroke-dasharray: 2 9; animation: coverage-flow 1.4s linear infinite; transition: opacity .4s 1s; }
+.coverage__end { fill: var(--accent); stroke: var(--bg-2); stroke-width: 1.5; transition: opacity .3s .9s; }
+.js-reveal .coverage__map:not(.is-in) .coverage__route { stroke-dashoffset: 1; }
+.js-reveal .coverage__map:not(.is-in) .coverage__flow,
+.js-reveal .coverage__map:not(.is-in) .coverage__end { opacity: 0; }
+@keyframes coverage-flow { to { stroke-dashoffset: -11; } }
+@media (prefers-reduced-motion: reduce) {
+  .coverage__flow { animation: none; }
+  .coverage__route, .coverage__flow, .coverage__end { transition: none; }
+}
+.coverage__legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; margin-top: 18px; color: var(--muted); font-size: .7rem; }
+.coverage__legend span { display: inline-flex; align-items: center; gap: 9px; }
+.coverage__key { display: inline-block; flex: none; }
+.coverage__key--hq { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.coverage__key--state { width: 14px; height: 10px; border-radius: 2px; background: rgba(0, 184, 217, .25); border: 1px solid rgba(255, 255, 255, .15); }
+.coverage__key--route { width: 18px; height: 0; border-top: 2px dashed var(--accent-2); }
+@media (max-width: 860px) {
+  .coverage__inner { grid-template-columns: 1fr; }
+  .coverage__map { max-width: 480px; width: 100%; justify-self: center; }
+}
+
 /* ---------- Sobre ---------- */
 .about { background: var(--bg-2); border-top: 1px solid var(--line); }
 .about__inner { display: grid; grid-template-columns: 1fr minmax(260px, 360px); gap: clamp(32px, 7vw, 96px); align-items: center; }

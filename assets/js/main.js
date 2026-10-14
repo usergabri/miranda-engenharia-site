@@ -72,6 +72,43 @@
     });
   }
 
+  /* ---------- Mapa: estados atendidos ---------- */
+  var mapa = document.getElementById('mapa-brasil');
+  if (mapa) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var pin = mapa.querySelector('.coverage__pin');
+    var arcs = mapa.querySelector('.coverage__arcs');
+    var origin = pin.transform.baseVal.consolidate().matrix;
+    var svgEl = function (tag, attrs) {
+      var el = document.createElementNS(NS, tag);
+      for (var k in attrs) el.setAttribute(k, attrs[k]);
+      return arcs.appendChild(el);
+    };
+    var n = 0;
+    (C.estadosAtendidos || []).forEach(function (uf) {
+      uf = String(uf).trim().toUpperCase();
+      if (!/^[A-Z]{2}$/.test(uf)) return; // ignora marcadores {{UF_...}}
+      var p = mapa.querySelector('.coverage__states [data-uf="' + uf + '"]');
+      if (!p) return;
+      p.classList.add('is-on');
+      if (uf === pin.dataset.uf) return; // estado da sede não ganha arco
+
+      // Arco da sede até o centro do estado, curvado para cima
+      var b = p.getBBox();
+      var x0 = origin.e, y0 = origin.f, x1 = b.x + b.width / 2, y1 = b.y + b.height / 2;
+      var dx = x1 - x0, dy = y1 - y0, len = Math.hypot(dx, dy) || 1, bend = len * 0.32;
+      var nx = dy / len, ny = -dx / len;
+      if (ny > 0) { nx = -nx; ny = -ny; }
+      var cx = (x0 + x1) / 2 + nx * bend, cy = (y0 + y1) / 2 + ny * bend;
+      var d = 'M' + x0.toFixed(1) + ' ' + y0.toFixed(1) + 'Q' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + x1.toFixed(1) + ' ' + y1.toFixed(1);
+      var delay = (0.15 + n * 0.18) + 's';
+      svgEl('path', { 'class': 'coverage__route', d: d, pathLength: 1, style: 'transition-delay:' + delay });
+      svgEl('path', { 'class': 'coverage__flow', d: d, style: 'transition-delay:' + delay });
+      svgEl('circle', { 'class': 'coverage__end', cx: x1.toFixed(1), cy: y1.toFixed(1), r: 3.5, style: 'transition-delay:' + delay });
+      n++;
+    });
+  }
+
   /* ---------- Formulário → WhatsApp / e-mail ---------- */
   var form = document.getElementById('form-orcamento');
   if (form) {

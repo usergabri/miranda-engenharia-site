@@ -13,6 +13,10 @@ window.SITE_CONFIG = {
   instagram: '',      // ex.: 'mirandaengenharia' (sem @)
   cnpj: '',           // ex.: '00.000.000/0001-00'
 
+  // Estados já atendidos (siglas), pintados no mapa da seção "Atendimento em todo o Brasil".
+  // Use a sigla do estado; marcadores como {{UF_...}} são ignorados. Cada estado (exceto o da sede) ganha um arco saindo da sede.
+  estadosAtendidos: ['PR', 'SC', 'SP', 'MG'],
+
   // Métricas e anúncios — preencha os IDs para ativar
   analytics: {
     ga4: '',             // Google Analytics 4, ex.: 'G-XXXXXXXXXX'
